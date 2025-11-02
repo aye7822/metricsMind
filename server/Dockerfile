@@ -5,14 +5,14 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies (production only)
+RUN npm ci --only=production
 
 # Copy source code
 COPY . .
 
-# Expose port
-EXPOSE 5000
+# Expose port (Render will set PORT env var)
+EXPOSE ${PORT:-5000}
 
-# Start the application
-CMD ["npm", "run", "dev"]
+# Start the application (production mode)
+CMD ["node", "server.js"]
